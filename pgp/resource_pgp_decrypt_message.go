@@ -2,8 +2,8 @@ package pgp
 
 import (
 	"crypto/sha256"
-	"fmt"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/littleboytimmy/terraform-pgp-provider/pgp"
 )
 
 func resourcePGPDecryptMessage() *schema.Resource {
