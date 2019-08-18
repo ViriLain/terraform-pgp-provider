@@ -1,4 +1,4 @@
-package main
+package pgp
 
 import (
 	"github.com/hashicorp/terraform/plugin"
