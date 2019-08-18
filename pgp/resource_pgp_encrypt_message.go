@@ -1,6 +1,7 @@
 package pgp
 
 import (
+	"fmt"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -39,11 +40,11 @@ func resourcePGPEncryptMessageCreate(d *schema.ResourceData, m interface{}) erro
 	public_key := d.Get("public_key").(string)
 
 	// Create public key entity
-	publicKeyPacket, _ := GetPublicKeyPacket([]byte(public_key))
-	pubEntity, _ := CreateEntityFromKeys(publicKeyPacket, nil)
+	publicKeyPacket, _ := pgp.GetPublicKeyPacket([]byte(public_key))
+	pubEntity, _ := pgp.CreateEntityFromKeys(publicKeyPacket, nil)
 
 	// Encrypt message
-	encrypted, _ := Encrypt(pubEntity, []byte(message))
+	encrypted, _ := pgp.Encrypt(pubEntity, []byte(message))
 
 	d.Set("result", encrypted)
 
@@ -56,8 +57,4 @@ func resourcePGPEncryptMessageRead(d *schema.ResourceData, m interface{}) error 
 
 func resourcePGPEncryptMessageDelete(d *schema.ResourceData, m interface{}) error {
 	return nil
-}
-
-func sha256sum(data interface{}) string {
-	return fmt.Sprintf("%x", sha256.Sum256([]byte(data.(string))))
 }

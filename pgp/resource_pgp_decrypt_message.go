@@ -2,6 +2,7 @@ package pgp
 
 import (
 	"crypto/sha256"
+	"fmt"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -44,14 +45,14 @@ func resourcePGPDecryptMessage() *schema.Resource {
 
 func resourcePGPDecryptMessageCreate(d *schema.ResourceData, m interface{}) error {
 	message := d.Get("content").(string)
-	private_key := g.Get("private_key").(string)
+	private_key := d.Get("private_key").(string)
 	public_key := d.Get("public_key").(string)
 
 	// Create private key entity
-	privEntity, _ := GetEntity([]byte(public_key), []byte(private_key))
+	privEntity, _ := pgp.GetEntity([]byte(public_key), []byte(private_key))
 
 	// Decrypt message
-	decrypted, _ := Decrypt(privEntity, message)
+	decrypted, _ := pgp.Decrypt(privEntity, []byte(message))
 
 	d.Set("result", decrypted)
 
