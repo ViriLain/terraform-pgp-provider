@@ -1,4 +1,4 @@
-package gpg
+package pgp
 
 import (
 	"bytes"
@@ -15,9 +15,9 @@ import (
 
 func resourcePGPEncryptMessage() *schema.Resource {
 	return &schema.Resource{
-		Create: resourceGPGEncryptedMessageCreate,
-		Read:   resourceGPGEncryptedMessageRead,
-		Delete: resourceGPGEncryptedMessageDelete,
+		Create: resourcePGPEncryptMessageCreate,
+		Read:   resourcePGPEncryptMessageRead,
+		Delete: resourcePGPEncryptMessageDelete,
 
 		Schema: map[string]*schema.Schema{
 			"content": &schema.Schema{
@@ -43,7 +43,7 @@ func resourcePGPEncryptMessage() *schema.Resource {
 	}
 }
 
-func resourcePGPEncryptMessage(d *schema.ResourceData, m interface{}) error {
+func resourcePGPEncryptMessageCreate(d *schema.ResourceData, m interface{}) error {
 	message := d.Get("content")
 	public_key := d.Get("public_key")
 
@@ -57,10 +57,10 @@ func resourcePGPEncryptMessage(d *schema.ResourceData, m interface{}) error {
 	return encrypted
 }
 
-func resourcePGPEncryptedMessageRead(d *schema.ResourceData, m interface{}) error {
+func resourcePGPEncryptMessageRead(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func resourceGPGEncryptedMessageDelete(d *schema.ResourceData, m interface{}) error {
+func resourcePGPEncryptMessageDelete(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
