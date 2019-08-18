@@ -17,14 +17,14 @@ func resourcePGPDecryptMessage() *schema.Resource {
 				Required:  true,
 				ForceNew:  true,
 				Sensitive: true,
-				StateFunc: sha256sum,
+				StateFunc: sha256,
 			},
 			"private_key": &schema.Schema{
 				Type:      schema.TypeString,
 				Required:  true,
 				ForceNew:  true,
 				Sensitive: true,
-				StateFunc: sha256sum,
+				StateFunc: sha256,
 			},
 			"result": &schema.Schema{
 				Type:     schema.TypeString,
@@ -36,14 +36,14 @@ func resourcePGPDecryptMessage() *schema.Resource {
 }
 
 func resourcePGPDecryptMessageCreate(d *schema.ResourceData, m interface{}) error {
-	message := d.Get("content")
-	public_key := d.Get("private_key")
+	message := d.Get("content").(string)
+	public_key := d.Get("private_key").(string)
 
 	// Create private key entity
-	privEntity, _ := pgp.GetEntity([]byte(TestPublicKey), []byte(TestPrivateKey))
+	privEntity, _ := GetEntity([]byte(TestPublicKey), []byte(TestPrivateKey))
 
 	// Decrypt message
-	decrypted, _ := pgp.Decrypt(privEntity, encrypted)
+	decrypted, _ := Decrypt(privEntity, encrypted)
 
 	return nil
 }
