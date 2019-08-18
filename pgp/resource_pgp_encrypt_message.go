@@ -39,8 +39,8 @@ func resourcePGPEncryptMessageCreate(d *schema.ResourceData, m interface{}) erro
 	public_key := d.Get("public_key").(string)
 
 	// Create public key entity
-	publicKeyPacket, _ := GetPublicKeyPacket([]byte(public_key))
-	pubEntity, _ := CreateEntityFromKeys(publicKeyPacket, nil)
+	publicKeyPacket, _ := getPublicKeyPacket([]byte(public_key))
+	pubEntity, _ := createEntityFromKeys(publicKeyPacket, nil)
 
 	// Encrypt message
 	encrypted, _ := Encrypt(pubEntity, []byte(message))
