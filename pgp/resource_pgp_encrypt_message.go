@@ -16,14 +16,12 @@ func resourcePGPEncryptMessage() *schema.Resource {
 				Required:  true,
 				ForceNew:  true,
 				Sensitive: true,
-				StateFunc: sha256sum,
 			},
 			"public_key": &schema.Schema{
 				Type:      schema.TypeString,
 				Required:  true,
 				ForceNew:  true,
 				Sensitive: true,
-				StateFunc: sha256sum,
 			},
 			"result": &schema.Schema{
 				Type:     schema.TypeString,
