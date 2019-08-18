@@ -15,9 +15,9 @@ import (
 
 func resourcePGPDecryptMessage() *schema.Resource {
 	return &schema.Resource{
-		Create: resourcePGPEncryptMessageCreate,
-		Read:   resourcePGPEncryptMessageRead,
-		Delete: resourcePGPEncryptMessageDelete,
+		Create: resourcePGPDecryptMessageCreate,
+		Read:   resourcePGPDecryptMessageRead,
+		Delete: resourcePGPDecryptMessageDelete,
 
 		Schema: map[string]*schema.Schema{
 			"content": &schema.Schema{
@@ -43,7 +43,7 @@ func resourcePGPDecryptMessage() *schema.Resource {
 	}
 }
 
-func resourcePGPEncryptMessageCreate(d *schema.ResourceData, m interface{}) error {
+func resourcePGPdecryptMessageCreate(d *schema.ResourceData, m interface{}) error {
 	message := d.Get("content")
 	public_key := d.Get("private_key")
 
@@ -56,10 +56,10 @@ func resourcePGPEncryptMessageCreate(d *schema.ResourceData, m interface{}) erro
 	return nil
 }
 
-func resourcePGPEncryptMessageRead(d *schema.ResourceData, m interface{}) error {
+func resourcePGPDecryptMessageRead(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func resourcePGPEncryptMessageDelete(d *schema.ResourceData, m interface{}) error {
+func resourcePGPDecryptMessageDelete(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
