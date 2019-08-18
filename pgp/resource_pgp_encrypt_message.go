@@ -1,16 +1,7 @@
 package pgp
 
 import (
-	"bytes"
-	"crypto/sha256"
-	"fmt"
-	"io"
-	"strings"
-
 	"github.com/hashicorp/terraform/helper/schema"
-	"golang.org/x/crypto/openpgp"
-	"golang.org/x/crypto/openpgp/armor"
-	"golang.org/x/crypto/openpgp/packet"
 )
 
 func resourcePGPEncryptMessage() *schema.Resource {
