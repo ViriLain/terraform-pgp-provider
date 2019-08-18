@@ -2,6 +2,7 @@ package pgp
 
 import (
 	"crypto/sha256"
+	"fmt"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
