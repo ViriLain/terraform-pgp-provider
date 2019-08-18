@@ -46,7 +46,7 @@ func resourcePGPEncryptMessageCreate(d *schema.ResourceData, m interface{}) erro
 	encrypted, _ := Encrypt(pubEntity, []byte(message))
 
 	d.Set("result", encrypted)
-	d.SetId(sha256sum(result))
+	d.SetId(sha256sum(encrypted))
 
 	return nil
 }
