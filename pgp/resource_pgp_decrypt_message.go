@@ -49,10 +49,16 @@ func resourcePGPDecryptMessageCreate(d *schema.ResourceData, m interface{}) erro
 	public_key := d.Get("public_key").(string)
 
 	// Create private key entity
-	privEntity, _ := GetEntity([]byte(public_key), []byte(private_key))
+	privEntity, err := GetEntity([]byte(public_key), []byte(private_key))
+	if err != nil {
+		return fmt.Errorf("Unable to create an entity with the public key: %v", err)
+	}
 
 	// Decrypt message
-	decrypted, _ := Decrypt(privEntity, []byte(message))
+	decrypted, err := Decrypt(privEntity, []byte(message))
+	if err != nil {
+		return fmt.Errorf("Unable to decrypt message: %v", err)
+	}
 
 	d.Set("result", decrypted)
 
