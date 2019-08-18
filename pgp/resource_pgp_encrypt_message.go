@@ -16,14 +16,14 @@ func resourcePGPEncryptMessage() *schema.Resource {
 				Required:  true,
 				ForceNew:  true,
 				Sensitive: true,
-				StateFunc: sha256,
+				StateFunc: sha256sum,
 			},
 			"public_key": &schema.Schema{
 				Type:      schema.TypeString,
 				Required:  true,
 				ForceNew:  true,
 				Sensitive: true,
-				StateFunc: sha256,
+				StateFunc: sha256sum,
 			},
 			"result": &schema.Schema{
 				Type:     schema.TypeString,
@@ -45,7 +45,9 @@ func resourcePGPEncryptMessageCreate(d *schema.ResourceData, m interface{}) erro
 	// Encrypt message
 	encrypted, _ := Encrypt(pubEntity, []byte(message))
 
-	return encrypted
+	d.Set("result", encrypted)
+
+	return nil
 }
 
 func resourcePGPEncryptMessageRead(d *schema.ResourceData, m interface{}) error {
@@ -54,4 +56,8 @@ func resourcePGPEncryptMessageRead(d *schema.ResourceData, m interface{}) error 
 
 func resourcePGPEncryptMessageDelete(d *schema.ResourceData, m interface{}) error {
 	return nil
+}
+
+func sha256sum(data interface{}) string {
+	return fmt.Sprintf("%x", sha256.Sum256([]byte(data.(string))))
 }

@@ -17,14 +17,21 @@ func resourcePGPDecryptMessage() *schema.Resource {
 				Required:  true,
 				ForceNew:  true,
 				Sensitive: true,
-				StateFunc: sha256,
+				StateFunc: sha256sum,
+			},
+			"public_key": &schema.Schema{
+				Type:      schema.TypeString,
+				Required:  true,
+				ForceNew:  true,
+				Sensitive: true,
+				StateFunc: sha256sum,
 			},
 			"private_key": &schema.Schema{
 				Type:      schema.TypeString,
 				Required:  true,
 				ForceNew:  true,
 				Sensitive: true,
-				StateFunc: sha256,
+				StateFunc: sha256sum,
 			},
 			"result": &schema.Schema{
 				Type:     schema.TypeString,
@@ -37,13 +44,16 @@ func resourcePGPDecryptMessage() *schema.Resource {
 
 func resourcePGPDecryptMessageCreate(d *schema.ResourceData, m interface{}) error {
 	message := d.Get("content").(string)
-	public_key := d.Get("private_key").(string)
+	private_key := g.Get("private_key").(string)
+	public_key := d.Get("public_key").(string)
 
 	// Create private key entity
-	privEntity, _ := GetEntity([]byte(TestPublicKey), []byte(TestPrivateKey))
+	privEntity, _ := GetEntity([]byte(public_key), []byte(private_key))
 
 	// Decrypt message
-	decrypted, _ := Decrypt(privEntity, encrypted)
+	decrypted, _ := Decrypt(privEntity, message)
+
+	d.Set("result", decrypted)
 
 	return nil
 }
@@ -54,4 +64,8 @@ func resourcePGPDecryptMessageRead(d *schema.ResourceData, m interface{}) error 
 
 func resourcePGPDecryptMessageDelete(d *schema.ResourceData, m interface{}) error {
 	return nil
+}
+
+func sha256sum(data interface{}) string {
+	return fmt.Sprintf("%x", sha256.Sum256([]byte(data.(string))))
 }
