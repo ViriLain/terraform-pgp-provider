@@ -61,6 +61,7 @@ func resourcePGPDecryptMessageCreate(d *schema.ResourceData, m interface{}) erro
 	}
 
 	d.Set("result", decrypted)
+	d.SetId(sha256sum(result))
 
 	return nil
 }
